@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gold">#ffd700</color>
-    <color name="melloe_yellow">#f8de7e</color>
+    <color name="mellow_yellow">#f8de7e</color>
     <color name="mustard">#ffdb58</color>
     <color name="golden_poppy">#fcc200</color>
 </resources>
