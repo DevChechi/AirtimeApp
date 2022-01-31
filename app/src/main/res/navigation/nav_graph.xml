@@ -17,5 +17,14 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.perpetua.eazytopup.fragments.WelcomeFragment"
-        android:label="WelcomeFragment" />
+        android:label="WelcomeFragment" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_homeHostFragment"
+            app:destination="@id/homeHostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeHostFragment"
+        android:name="com.perpetua.eazytopup.fragments.HomeHostFragment"
+        android:label="fragment_home_host"
+        tools:layout="@layout/fragment_home_host" />
 </navigation>
