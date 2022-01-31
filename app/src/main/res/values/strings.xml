@@ -10,4 +10,9 @@
     <string name="buy_airtime_for_other_network">Buy Airtime for Other Network</string>
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
+    <string name="profile">Profile</string>
+    <string name="help">help</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

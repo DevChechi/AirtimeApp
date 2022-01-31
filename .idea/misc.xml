@@ -12,10 +12,12 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15438950554994954" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.31875" />
-        <entry key="app/src/main/res/layout/fragment_home_host.xml" value="0.31875" />
+        <entry key="app/src/main/res/layout/fragment_home_host.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.31875" />
+        <entry key="app/src/main/res/layout/nav_header.xml" value="0.31875" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.31875" />
+        <entry key="app/src/main/res/menu/drawer_menu.xml" value="0.31875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
