@@ -2,4 +2,7 @@
     <string name="app_name">EazyTopup</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_to_eazytopup">Welcome to EazyTopup</string>
+    <string name="welcome_message">Recharge airtime across all platforms instantly!</string>
+    <string name="get_started">Get started</string>
 </resources>
