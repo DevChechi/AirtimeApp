@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:defaultNavHost="true"
         app:navGraph="@navigation/home_nav_graph"
         />
@@ -28,6 +29,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@android:color/white"/>
+        android:background="@android:color/white"
+        app:itemIconTint="@color/bottom_nav_tab_item"
+        app:itemTextColor="@color/bottom_nav_tab_item"
+        app:itemBackground="@color/white"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
