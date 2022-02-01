@@ -23,6 +23,8 @@
             android:minHeight="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:title="@string/buy_airtime"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             >
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

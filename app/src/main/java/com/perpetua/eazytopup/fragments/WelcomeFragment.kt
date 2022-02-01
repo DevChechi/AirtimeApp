@@ -24,6 +24,10 @@ class WelcomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val decorView = activity!!.window.decorView // Hide the status bar.
+
+        val uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        decorView.systemUiVisibility = uiOptions
         _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         return binding.root
     }
