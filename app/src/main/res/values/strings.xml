@@ -15,4 +15,6 @@
     <string name="rate_us">Rate Us</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="points">Points</string>
+    <string name="history">History</string>
 </resources>
