@@ -12,4 +12,9 @@
     <color name="mustard">#ffdb58</color>
     <color name="golden_poppy">#fcc200</color>
     <color name="pale_yellow">#faf7e9</color>
+    <color name="dark_yellow">#efc000</color>
+    <color name="darker_yellow">#bf9a00</color>
+    <color name="gold_700">#ffa000</color>
+    <color name="gold_500">#ffc107</color>
+
 </resources>
