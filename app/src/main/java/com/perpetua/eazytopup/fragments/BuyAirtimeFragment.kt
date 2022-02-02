@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.MaterialToolbar
 import com.perpetua.eazytopup.databinding.FragmentBuyAirtimeBinding
 
 class BuyAirtimeFragment : Fragment() {
     private var _binding: FragmentBuyAirtimeBinding? = null
     private val binding get() = _binding!!
+    val args: BuyAirtimeFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,11 @@ class BuyAirtimeFragment : Fragment() {
         activity.setSupportActionBar(toolbar)
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         activity.supportActionBar?.setDisplayShowHomeEnabled(true)
+        val buyFor = args.buyFor
+        if(buyFor.equals("self")){
+            binding.buyForSelfLayout.visibility = View.GONE
+            binding.buyAirtimeText.text = ""
+        }
         return binding.root
     }
 

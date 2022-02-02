@@ -26,5 +26,10 @@
         android:id="@+id/buyAirtimeFragment"
         android:name="com.perpetua.eazytopup.fragments.BuyAirtimeFragment"
         android:label="fragment_buy_airtime"
-        tools:layout="@layout/fragment_buy_airtime" />
+        tools:layout="@layout/fragment_buy_airtime" >
+        <argument
+            android:name="buyFor"
+            app:argType="string"
+            android:defaultValue="null" />
+    </fragment>
 </navigation>

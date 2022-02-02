@@ -31,10 +31,10 @@ class HomeFragment : Fragment() {
         val button = binding.buyForSelf
         val navController = parentFragment?.parentFragment?.findNavController()
         button.setOnClickListener {
-            parentFragment?.parentFragment?.findNavController()?.navigate(R.id.action_homeHostFragment_to_buyAirtimeFragment)
+            parentFragment?.parentFragment?.findNavController()?.navigate(HomeHostFragmentDirections.actionHomeHostFragmentToBuyAirtimeFragment("self"))
         }
         binding.buyForOthers.setOnClickListener {
-            parentFragment?.parentFragment?.findNavController()?.navigate(R.id.action_homeHostFragment_to_buyAirtimeFragment)
+            parentFragment?.parentFragment?.findNavController()?.navigate(HomeHostFragmentDirections.actionHomeHostFragmentToBuyAirtimeFragment("others"))
         }
     }
 
