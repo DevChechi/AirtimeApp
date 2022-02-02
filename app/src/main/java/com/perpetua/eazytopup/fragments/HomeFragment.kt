@@ -33,6 +33,9 @@ class HomeFragment : Fragment() {
         button.setOnClickListener {
             parentFragment?.parentFragment?.findNavController()?.navigate(R.id.action_homeHostFragment_to_buyAirtimeFragment)
         }
+        binding.buyForOthers.setOnClickListener {
+            parentFragment?.parentFragment?.findNavController()?.navigate(R.id.action_homeHostFragment_to_buyAirtimeFragment)
+        }
     }
 
     override fun onDestroyView() {

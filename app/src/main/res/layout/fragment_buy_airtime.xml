@@ -38,6 +38,7 @@
         android:background="@android:color/transparent"
         android:padding="@dimen/margin_16dp">
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/buy_airtime_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -65,33 +66,41 @@
                 android:cursorVisible="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="@dimen/margin_32dp"
-            android:gravity="start"
-            android:text="@string/buy_airtime_for"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phone_number_topup"
+
+        <LinearLayout
+            android:id="@+id/buy_for_self_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_4dp"
-            android:hint="@string/phone_number_to_top_up"
-            app:endIconCheckable="@drawable/ic_baseline_person_24"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxBackgroundColor="@color/white"
-            app:prefixText="@string/code"
-            app:prefixTextColor="@color/black"
-            >
-            <com.google.android.material.textfield.TextInputEditText
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/margin_32dp"
+                android:gravity="start"
+                android:text="@string/buy_airtime_for"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_number_topup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:cursorVisible="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+                android:layout_marginTop="@dimen/margin_4dp"
+                android:hint="@string/phone_number_to_top_up"
+                app:endIconCheckable="@drawable/ic_baseline_person_24"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxBackgroundColor="@color/white"
+                app:prefixText="@string/code"
+                app:prefixTextColor="@color/black"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/amount_field"
