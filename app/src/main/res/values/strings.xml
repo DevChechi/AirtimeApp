@@ -21,4 +21,8 @@
     <string name="enter_amount">Amount</string>
     <string name="ksh">Ksh</string>
     <string name="buy_airtime">Buy Airtime</string>
+    <string name="buy">Buy</string>
+    <string name="code">+254</string>
+    <string name="enter_your_phone_number">Your phone number</string>
+    <string name="phone_number_to_top_up">Phone number to be topped up</string>
 </resources>
