@@ -37,14 +37,22 @@
         android:orientation="vertical"
         android:background="@android:color/transparent"
         android:padding="@dimen/margin_16dp">
-
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/margin_64dp"
+            android:gravity="start"
+            android:text="@string/buy_aritime_from"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phone_number_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_64dp"
-            android:hint="@string/enter_phone_number"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:hint="@string/enter_your_phone_number"
             app:endIconDrawable="@drawable/ic_baseline_person_24"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxBackgroundColor="@color/white"
@@ -61,19 +69,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginTop="@dimen/margin_4dp"
+            android:layout_marginTop="@dimen/margin_32dp"
             android:gravity="start"
-            android:text="@string/enter_your_phone_number"
+            android:text="@string/buy_airtime_for"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             />
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phone_number_topup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_32dp"
-            android:hint="@string/enter_phone_number"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:hint="@string/phone_number_to_top_up"
             app:endIconCheckable="@drawable/ic_baseline_person_24"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxBackgroundColor="@color/white"
@@ -85,16 +91,6 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="@dimen/margin_4dp"
-            android:gravity="start"
-            android:text="@string/phone_number_to_top_up"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            />
 
 
         <com.google.android.material.textfield.TextInputLayout
