@@ -11,7 +11,8 @@
         android:label="WelcomeFragment" >
         <action
             android:id="@+id/action_welcomeFragment_to_homeHostFragment"
-            app:destination="@id/homeHostFragment" />
+            app:destination="@id/homeHostFragment"
+            app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/homeHostFragment"

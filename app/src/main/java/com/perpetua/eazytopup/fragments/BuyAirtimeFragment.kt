@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputLayout
@@ -23,6 +24,7 @@ import java.lang.StringBuilder
 class BuyAirtimeFragment : Fragment() {
     private var _binding: FragmentBuyAirtimeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var toolbar: MaterialToolbar
     private lateinit var myPhoneNumber: String
     private lateinit var phoneNumberToTopup: String
     private lateinit var amount: String
@@ -39,7 +41,7 @@ class BuyAirtimeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = FragmentBuyAirtimeBinding.inflate(inflater, container, false)
-        val toolbar: MaterialToolbar = binding.toolbar
+        toolbar = binding.toolbar
         val activity = activity as AppCompatActivity
         activity.setSupportActionBar(toolbar)
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -101,7 +103,9 @@ class BuyAirtimeFragment : Fragment() {
             }
         }
 
-        
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
 
 
     }
