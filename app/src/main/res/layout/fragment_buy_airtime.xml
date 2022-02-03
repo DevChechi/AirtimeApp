@@ -61,14 +61,17 @@
             app:prefixTextColor="@color/black"
             >
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/my_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:cursorVisible="true"/>
+                android:cursorVisible="true"
+                android:inputType="number"
+                android:maxLength="9"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <LinearLayout
-            android:id="@+id/buy_for_self_layout"
+            android:id="@+id/buy_for_others_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -84,7 +87,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phone_number_topup"
+                android:id="@+id/phone_number_topup_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_4dp"
@@ -96,9 +99,13 @@
                 app:prefixTextColor="@color/black"
                 >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_number_to_topup"
                     android:layout_width="match_parent"
+                    android:inputType="number"
                     android:layout_height="wrap_content"
-                    android:cursorVisible="true"/>
+                    android:cursorVisible="true"
+                    android:maxLength="9"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -116,9 +123,11 @@
             app:expandedHintEnabled="true"
             app:boxBackgroundColor="@color/white">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
+                android:inputType="number"
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <Button

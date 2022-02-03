@@ -11,7 +11,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15438950554994954" />
-        <entry key="app/src/main/res/layout/fragment_buy_airtime.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/fragment_buy_airtime.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/fragment_help.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.22282608695652173" />
