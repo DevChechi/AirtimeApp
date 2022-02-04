@@ -34,7 +34,7 @@ class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.Transactions
             binding.transactionNumber.text = transactionStatement.phoneNumber
             binding.transactionAmount.text = transactionStatement.amount
             binding.transactionTime.text = transactionStatement.date
-            setOnClickListener {
+            setOnItemClickListener {
                 onItemClickListener?.let { it(transactionStatement) }
             }
         }

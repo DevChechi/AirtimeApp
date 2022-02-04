@@ -5,11 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.perpetua.eazytopup.R
+import com.perpetua.eazytopup.adapters.RedeemPointsAdapter
+import com.perpetua.eazytopup.databinding.FragmentFavoritesBinding
+import com.perpetua.eazytopup.databinding.FragmentPointsBinding
+import com.perpetua.eazytopup.models.RedeemPoints
 
 
 class PointsFragment : Fragment() {
-
+    private var _binding: FragmentPointsBinding? = null
+    private val binding get() = _binding!!
+    lateinit var redeemPointsAdapter: RedeemPointsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,9 +27,35 @@ class PointsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_points, container, false)
+        _binding = FragmentPointsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setUpRecyclerViewAdapter()
+        binding.totalPoints.text = "28000"
+    }
+
+    fun setUpRecyclerViewAdapter(){
+        redeemPointsAdapter = RedeemPointsAdapter()
+        binding.favoritesList.apply {
+            adapter = redeemPointsAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+        redeemPointsAdapter.differ.submitList(dummyFavorites())
+    }
+
+    fun dummyFavorites(): List<RedeemPoints>{
+        val redeemPointsList = mutableListOf<RedeemPoints>()
+        for(i: Int in 0..15){
+            val RedeemPoints = RedeemPoints(
+                i.toString(),
+                "200",
+                "50"
+            )
+            redeemPointsList.add(RedeemPoints)
+        }
+        return redeemPointsList
+    }
 
 }
