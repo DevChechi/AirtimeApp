@@ -19,7 +19,7 @@
     <item
         android:id="@+id/pointsFragment"
         android:title="@string/points"
-        android:icon="@drawable/ic_favorite_black_24dp"
+        android:icon="@drawable/ic_baseline_money_24"
         />
     <item
         android:id="@+id/helpFragment"

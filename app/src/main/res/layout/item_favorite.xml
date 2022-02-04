@@ -32,12 +32,14 @@
             android:layout_marginStart="@dimen/margin_32dp"
             >
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/favorite_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:gravity="top"
                 tools:text="@tools:sample/full_names"/>
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/favorite_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_4dp"

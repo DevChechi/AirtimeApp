@@ -1,60 +1,82 @@
 package com.perpetua.eazytopup.fragments
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.perpetua.eazytopup.R
+import com.perpetua.eazytopup.adapters.FavoritesAdapter
+import com.perpetua.eazytopup.databinding.FragmentFavoritesBinding
+import com.perpetua.eazytopup.models.Contact
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoritesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FavoritesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentFavoritesBinding? = null
+    private val binding get() = _binding!!
+    lateinit var favoritesAdapter: FavoritesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoritesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoritesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setUpRecyclerViewAdapter()
+        favoritesAdapter.setOnItemClickListener {
+            parentFragment?.parentFragment?.findNavController()?.navigate(R.id.action_homeHostFragment_to_buyAirtimeFragment)
+        }
     }
+
+    fun setUpRecyclerViewAdapter(){
+        favoritesAdapter = FavoritesAdapter()
+        binding.favoritesList.apply {
+            adapter = favoritesAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+        favoritesAdapter.differ.submitList(dummyFavorites())
+    }
+
+    fun dummyFavorites(): List<Contact>{
+        val contactList = mutableListOf<Contact>()
+        for(i: Int in 0..15){
+            val contact = Contact("John Doe", "0712345678")
+            contactList.add(contact)
+        }
+        return contactList
+    }
+    private fun showRationaleDialog(
+        title: String,
+        message: String,
+        postiveButton: String,
+        listener: DialogInterface.OnClickListener
+    ) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(postiveButton, listener)
+            .setNegativeButton("Cancel") { dialog, which ->
+                Log.d("Buy Airtime fragment", "Cancel dialogue")
+            }
+        builder.create().show()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
