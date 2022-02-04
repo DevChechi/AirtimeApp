@@ -5,15 +5,65 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PointsFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:layout_gravity="center_horizontal"
-        android:gravity="bottom"
-        android:text="Coming Soon"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:layout_marginEnd="@dimen/margin_16dp"
+            style="@style/CardView"
+            android:elevation="@dimen/margin_4dp"
+            android:padding="@dimen/margin_32dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:padding="@dimen/margin_16dp"
+                    android:layout_gravity="top"
+                    android:text="@string/my_points"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_16dp"
+                    android:layout_gravity="bottom"
+                    tools:text="@string/zero"
+                    android:textAppearance="?attr/textAppearanceHeadline6"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/margin_32dp"
+            android:text="@string/redeem_bonga_points"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favoritesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:clipToPadding="false"
+            android:paddingBottom="50dp"
+            tools:listitem="@layout/item_redeem"
+            />
+    </LinearLayout>
+
 
 </FrameLayout>

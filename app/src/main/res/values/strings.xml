@@ -37,4 +37,8 @@
     <string name="week_airtime">Week spend</string>
     <string name="today_aitime">Today Spend</string>
     <string name="total_points">Total Points</string>
+    <string name="my_points">Total Points</string>
+    <string name="redeem_bonga_points">"Redeem points "</string>
+    <string name="points_amount">10 points</string>
+    <string name="airtime_redeem">KSH 20 Airtime</string>
 </resources>
