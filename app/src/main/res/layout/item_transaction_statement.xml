@@ -32,12 +32,14 @@
             android:layout_marginStart="@dimen/margin_32dp"
             >
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/transaction_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:gravity="top"
                 tools:text="@tools:sample/full_names"/>
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/transaction_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_4dp"
@@ -54,6 +56,7 @@
             android:layout_alignParentEnd="true">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/transaction_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
@@ -61,6 +64,7 @@
                 android:layout_gravity="center"
                 tools:text="@string/amount"/>
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/transaction_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_4dp"
@@ -70,4 +74,9 @@
         </LinearLayout>
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
+
 </FrameLayout>

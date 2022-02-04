@@ -36,6 +36,7 @@
                     android:text="@string/my_points"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/total_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_16dp"
