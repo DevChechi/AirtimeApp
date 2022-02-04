@@ -41,4 +41,5 @@
     <string name="redeem_bonga_points">"Redeem points "</string>
     <string name="redeem_points_amount"> 10</string>
     <string name="redeem_airtime_amount"> 20 </string>
+    <string name="transaction_statements">TRANSACTION STATEMENTS</string>
 </resources>
