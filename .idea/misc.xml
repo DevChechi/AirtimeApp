@@ -20,6 +20,8 @@
         <entry key="app/src/main/res/layout/fragment_points.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.31875" />
+        <entry key="app/src/main/res/layout/item_favorite.xml" value="0.31875" />
+        <entry key="app/src/main/res/layout/item_transaction_statement.xml" value="0.33645833333333336" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.31875" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.31875" />
         <entry key="app/src/main/res/menu/drawer_menu.xml" value="0.31875" />
