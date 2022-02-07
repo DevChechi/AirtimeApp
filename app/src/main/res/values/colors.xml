@@ -16,5 +16,9 @@
     <color name="darker_yellow">#bf9a00</color>
     <color name="gold_700">#ffa000</color>
     <color name="gold_500">#ffc107</color>
+    <color name="gold_200">#FFE082</color>
+    <color name="orange_500">#FF5722</color>
+    <color name="purple_900">#1A237E</color>
+
 
 </resources>

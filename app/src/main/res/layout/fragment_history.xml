@@ -8,96 +8,66 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/dimen_200dp"
+        android:orientation="horizontal"
+        >
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_4dp"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:layout_marginEnd="@dimen/margin_4dp"
             style="@style/CardView"
+            android:background="@drawable/gradient_drawable"
             android:layout_weight="1"
             android:elevation="@dimen/margin_4dp"
             android:padding="@dimen/margin_32dp"
-
             >
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    android:layout_marginTop="@dimen/margin_16dp"
-                    android:padding="@dimen/margin_16dp"
-                    android:layout_gravity="top"
-                    android:text="@string/monthly_spend"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/total_airtime_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_16dp"
-                    android:layout_gravity="bottom"
-                    tools:text="@string/zero"
-                    android:textAppearance="?attr/textAppearanceHeadline6"/>
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_weight="1"
-            style="@style/CardView"
-            android:elevation="@dimen/margin_4dp"
-            android:padding="@dimen/margin_32dp"
-
-            >
+            <ImageView
+                android:src="@drawable/gradient_drawable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <com.google.android.material.textview.MaterialTextView
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    android:layout_marginTop="@dimen/margin_16dp"
-                    android:padding="@dimen/margin_16dp"
-                    android:layout_gravity="top"
-                    android:text="@string/today_aitime"/>
+                    android:orientation="vertical"
+                    android:layout_weight="0.25"
+                    android:padding="@dimen/margin_16dp">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:layout_gravity="top"
+                        android:text="@string/monthly_spend"/>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/total_airtime_today"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_16dp"
-                    android:layout_gravity="bottom"
-                    tools:text="@string/zero"
-                    android:textAppearance="?attr/textAppearanceHeadline6"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/total_airtime_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        tools:text="@string/zero"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+
+                        />
+                </LinearLayout>
+
+
             </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_weight="1"
-            style="@style/CardView"
-            android:elevation="@dimen/margin_4dp"
-            android:padding="@dimen/margin_32dp"
-
-            >
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_gravity="bottom">
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
                     android:layout_marginTop="@dimen/margin_16dp"
                     android:padding="@dimen/margin_16dp"
                     android:layout_gravity="top"
@@ -110,10 +80,13 @@
                     android:padding="@dimen/margin_16dp"
                     android:layout_gravity="bottom"
                     tools:text="@string/zero"
-                    android:textAppearance="?attr/textAppearanceHeadline6"/>
+                    android:textAppearance="?attr/textAppearanceSubtitle1"/>
             </LinearLayout>
 
+
         </com.google.android.material.card.MaterialCardView>
+
+
     </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView

@@ -36,7 +36,7 @@ class HistoryFragment : Fragment() {
         val monthyAirtime = 12000
         val numberFormat  = NumberFormat.getCurrencyInstance()
         val decimalFormatSymbols: DecimalFormatSymbols = (numberFormat as DecimalFormat).decimalFormatSymbols
-        decimalFormatSymbols.currencySymbol = "Ksh "
+        decimalFormatSymbols.currencySymbol = "KSH. "
         (numberFormat as DecimalFormat).decimalFormatSymbols = decimalFormatSymbols
 
         val todaySpend = numberFormat.format(dailyAirtime)
@@ -48,7 +48,7 @@ class HistoryFragment : Fragment() {
         val averageSpend = numberFormat.format(average)
 
 
-        binding.totalAirtimeToday.text = todaySpend
+
         binding.totalAirtimeMonth.text = monthlySpend
         binding.averageSpend.text = averageSpend
     }
