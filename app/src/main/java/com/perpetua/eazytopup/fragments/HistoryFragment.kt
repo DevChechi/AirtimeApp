@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.perpetua.eazytopup.R
-import com.perpetua.eazytopup.adapters.FavoritesAdapter
 import com.perpetua.eazytopup.adapters.TransactionsAdapter
 import com.perpetua.eazytopup.databinding.FragmentHistoryBinding
-import com.perpetua.eazytopup.models.Contact
 import com.perpetua.eazytopup.models.TransactionStatement
+import java.text.*
+import java.util.*
 
 
 class HistoryFragment : Fragment() {
@@ -33,9 +32,25 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpRecyclerViewAdapter()
-        binding.totalAirtimeToday.text = "200"
-        binding.totalAirtimeWeek.text = "1000"
-        binding.totalPointsStatement.text = "28000"
+        val dailyAirtime = 1000
+        val monthyAirtime = 12000
+        val numberFormat  = NumberFormat.getCurrencyInstance()
+        val decimalFormatSymbols: DecimalFormatSymbols = (numberFormat as DecimalFormat).decimalFormatSymbols
+        decimalFormatSymbols.currencySymbol = "Ksh "
+        (numberFormat as DecimalFormat).decimalFormatSymbols = decimalFormatSymbols
+
+        val todaySpend = numberFormat.format(dailyAirtime)
+        val monthlySpend = numberFormat.format(monthyAirtime)
+
+        val c = Calendar.getInstance()
+        val monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH)
+        val average = monthyAirtime / monthMaxDays
+        val averageSpend = numberFormat.format(average)
+
+
+        binding.totalAirtimeToday.text = todaySpend
+        binding.totalAirtimeMonth.text = monthlySpend
+        binding.averageSpend.text = averageSpend
     }
 
     fun setUpRecyclerViewAdapter(){

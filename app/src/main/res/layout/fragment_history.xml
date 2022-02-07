@@ -32,10 +32,10 @@
                     android:layout_marginTop="@dimen/margin_16dp"
                     android:padding="@dimen/margin_16dp"
                     android:layout_gravity="top"
-                    android:text="@string/week_airtime"/>
+                    android:text="@string/monthly_spend"/>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/total_airtime_week"
+                    android:id="@+id/total_airtime_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_16dp"
@@ -101,10 +101,10 @@
                     android:layout_marginTop="@dimen/margin_16dp"
                     android:padding="@dimen/margin_16dp"
                     android:layout_gravity="top"
-                    android:text="@string/total_points"/>
+                    android:text="@string/average_spend"/>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/total_points_statement"
+                    android:id="@+id/average_spend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_16dp"

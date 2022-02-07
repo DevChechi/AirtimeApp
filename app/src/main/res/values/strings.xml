@@ -42,4 +42,6 @@
     <string name="redeem_points_amount"> 10</string>
     <string name="redeem_airtime_amount"> 20 </string>
     <string name="transaction_statements">TRANSACTION STATEMENTS</string>
+    <string name="monthly_spend">Monthy spend</string>
+    <string name="average_spend">Average spend</string>
 </resources>
