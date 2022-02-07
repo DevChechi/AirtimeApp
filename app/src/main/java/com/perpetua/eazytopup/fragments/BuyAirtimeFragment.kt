@@ -1,8 +1,14 @@
 package com.perpetua.eazytopup.fragments
 
+import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log.d
 import android.util.Log.i
 import androidx.fragment.app.Fragment
@@ -20,13 +26,13 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputLayout
 import com.perpetua.eazytopup.databinding.FragmentBuyAirtimeBinding
 import java.lang.StringBuilder
-import android.view.inputmethod.EditorInfo
 
-import android.widget.TextView
-import android.widget.TextView.OnEditorActionListener
+import androidx.core.app.ActivityCompat
 
 
 class BuyAirtimeFragment : Fragment() {
+    private val TAG: String? = "BuyAirtimeFragment"
+    private val REQUEST_PERMISSIONS_REQUEST_CODE: Int = 1
     private var _binding: FragmentBuyAirtimeBinding? = null
     private val binding get() = _binding!!
     private lateinit var toolbar: MaterialToolbar
@@ -60,6 +66,15 @@ class BuyAirtimeFragment : Fragment() {
         binding.phoneNumberTopupField.setEndIconOnClickListener {
             it.hideSoftKeyboard()
             Toast.makeText(activity, "end icon clicked", Toast.LENGTH_LONG).show()
+            if (!checkPermissions()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions()
+                }
+            }
+            else {
+                readContacts()
+
+            }
         }
 
         if(buyFor.equals("others")){
@@ -80,6 +95,7 @@ class BuyAirtimeFragment : Fragment() {
                 showRationaleDialog(
                     "Confirm",
                     "Buy airtime for $myPhoneNumber \n Amount: $stringBuilder \t Transaction cost: $transactionCost",
+                    "EDIT",
                     "Ok"){ dialog, which ->
                     Toast.makeText(requireContext(), "Successful, wait for Mpesa prompt", Toast.LENGTH_LONG).show()
                 }
@@ -105,6 +121,7 @@ class BuyAirtimeFragment : Fragment() {
                 showRationaleDialog(
                     "Confirm",
                     "Buy airtime for  0$myPhoneNumber \n Amount: ${stringBuilder.toString()} \t Trasaction cost: ${transactionCost.toString()}",
+                    "EDIT",
                     "Ok"){ dialog, which ->
                     Toast.makeText(requireContext(), "Successful, wait for Mpesa prompt", Toast.LENGTH_LONG).show()
                 }
@@ -180,6 +197,7 @@ class BuyAirtimeFragment : Fragment() {
     private fun showRationaleDialog(
         title: String,
         message: String,
+        negativeButton: String,
         postiveButton: String,
         listener: DialogInterface.OnClickListener
     ) {
@@ -187,8 +205,8 @@ class BuyAirtimeFragment : Fragment() {
         builder.setTitle(title)
             .setMessage(message)
             .setPositiveButton(postiveButton, listener)
-            .setNegativeButton("Edit") { dialog, which ->
-                d("Buy Airtime fragment", "Edit details")
+            .setNegativeButton(negativeButton) { dialog, which ->
+                d(TAG, "Dialogue cancelled")
             }
         builder.create().show()
     }
@@ -199,5 +217,71 @@ class BuyAirtimeFragment : Fragment() {
         _binding = null
     }
 
+    fun checkPermissions(): Boolean{
+        val permissionState = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
+        return permissionState == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun requestPermissions(){
+        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_CONTACTS )
+        if(shouldProvideRationale){
+            d("Contacts Permission", "Providing permission rationale to give user more info")
+            showRationaleDialog(
+                "We need permission to read your contacts",
+                "This will allow you to search a contact from your contacts instead of entering their number. ",
+                "CANCEL",
+                "OK"
+            ) { dialog, which ->
+                startReadContactsPermissionRequest()
+            }
+        }else{
+            d("Contacts Permission", "Requesting READ_CONTACTS Permission")
+            startReadContactsPermissionRequest()
+        }
+    }
+    private fun startReadContactsPermissionRequest() {
+        requestPermissions(arrayOf(android.Manifest.permission.READ_CONTACTS), REQUEST_PERMISSIONS_REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        d(TAG, "OnRequestPermissionResult")
+        d(TAG, "Request code: $requestCode")
+        d(TAG, "Grant Results is empty ${grantResults.isEmpty()}")
+        d(TAG, "Permission granted ${grantResults[0] == PackageManager.PERMISSION_GRANTED}")
+        if(requestCode == REQUEST_PERMISSIONS_REQUEST_CODE){
+            when{
+                grantResults.isEmpty() -> {
+                    d(TAG, "User interaction was cancelled")
+                }
+                grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
+                    readContacts()
+                }else ->{
+                d(TAG, "Permission denied")
+                showRationaleDialog("Permission denied",
+                    "Search contacts requires permission to access your contacts. To give this app permission to access contacts, go to settings -> Permissions and turn contacts permission on",
+                    "CANCEL",
+                    "SETTINGS"
+                ) { dialog, which ->
+                    requireContext().openAppSystemSettings()
+                }
+            }
+            }
+        }
+    }
+
+    fun Context.openAppSystemSettings() {
+        startActivity(Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", packageName, null)
+        })
+    }
+
+    fun readContacts(){
+        i(TAG, "Ready to read contacts")
+    }
 
 }
