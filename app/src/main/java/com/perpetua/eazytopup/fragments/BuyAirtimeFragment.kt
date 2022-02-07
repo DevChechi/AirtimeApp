@@ -20,6 +20,11 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputLayout
 import com.perpetua.eazytopup.databinding.FragmentBuyAirtimeBinding
 import java.lang.StringBuilder
+import android.view.inputmethod.EditorInfo
+
+import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
+
 
 class BuyAirtimeFragment : Fragment() {
     private var _binding: FragmentBuyAirtimeBinding? = null
@@ -52,6 +57,10 @@ class BuyAirtimeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val buyFor = args.buyFor
         setupUI(view)
+        binding.phoneNumberTopupField.setEndIconOnClickListener {
+            it.hideSoftKeyboard()
+            Toast.makeText(activity, "end icon clicked", Toast.LENGTH_LONG).show()
+        }
 
         if(buyFor.equals("others")){
             binding.buyForOthers.setOnClickListener {
