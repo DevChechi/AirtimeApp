@@ -1,14 +1,19 @@
 package com.perpetua.eazytopup.fragments
 
 import android.Manifest
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.Settings
+import android.text.Editable
+import android.util.Log
 import android.util.Log.d
 import android.util.Log.i
 import androidx.fragment.app.Fragment
@@ -28,9 +33,13 @@ import com.perpetua.eazytopup.databinding.FragmentBuyAirtimeBinding
 import java.lang.StringBuilder
 
 import androidx.core.app.ActivityCompat
+import com.perpetua.eazytopup.models.Contact
+import contacts.core.Contacts
+import contacts.core.util.*
 
 
 class BuyAirtimeFragment : Fragment() {
+    private val CONTACT_PICK_CODE: Int = 2
     private val TAG: String? = "BuyAirtimeFragment"
     private val REQUEST_PERMISSIONS_REQUEST_CODE: Int = 1
     private var _binding: FragmentBuyAirtimeBinding? = null
@@ -65,14 +74,13 @@ class BuyAirtimeFragment : Fragment() {
         setupUI(view)
         binding.phoneNumberTopupField.setEndIconOnClickListener {
             it.hideSoftKeyboard()
-            Toast.makeText(activity, "end icon clicked", Toast.LENGTH_LONG).show()
             if (!checkPermissions()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     requestPermissions()
                 }
             }
             else {
-                readContacts()
+                pickContact()
 
             }
         }
@@ -258,7 +266,7 @@ class BuyAirtimeFragment : Fragment() {
                     d(TAG, "User interaction was cancelled")
                 }
                 grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
-                    readContacts()
+                    pickContact()
                 }else ->{
                 d(TAG, "Permission denied")
                 showRationaleDialog("Permission denied",
@@ -280,11 +288,98 @@ class BuyAirtimeFragment : Fragment() {
         })
     }
 
-    fun readContacts(){
-        i(TAG, "Ready to read contacts")
+    private fun pickContact(){
+        val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+        startActivityForResult(intent, CONTACT_PICK_CODE)
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == RESULT_OK){
+
+            if(requestCode == CONTACT_PICK_CODE){
+                binding.phoneNumberToTopup.text = null
+                val cursor1: Cursor
+                val cursor2: Cursor?
+
+                val uri = data?.data
+                cursor1 = uri?.let { activity?.contentResolver?.query(it, null, null, null,null) }!!
+                cursor1.moveToFirst()
+                if(cursor1.moveToFirst()){
+                    //get contact details
+                    val contactId = cursor1.getString(cursor1.getColumnIndexOrThrow(ContactsContract.Contacts._ID))
+                    val idResults = cursor1.getString(cursor1.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER))
+                    val idResultHold = idResults.toInt()
+
+                    //check if contact has a phone number or not
+                    if (idResultHold == 1){
+                        cursor2 = activity?.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+contactId,
+                            null,
+                            null
+                        )
+                        //a contact may have multiple phone numbers
+                        val phoneNumbers = ArrayList<String>()
+                        while (cursor2!!.moveToNext()){
+                            //get phone number
+                            val contactNumber = cursor2.getString(cursor2.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                            //set phone number
+                            phoneNumbers.add(contactNumber)
+                        }
+                        if(phoneNumbers.size > 1){
+                            showPhoneNumberDialog(phoneNumbers = phoneNumbers){ dialog, which ->
+                                binding.phoneNumberToTopup.setText(normalizePhoneNumber(phoneNumbers[which]))
+                            }
+                        }else if(phoneNumbers.size == 1){
+                            binding.phoneNumberToTopup.setText(normalizePhoneNumber(phoneNumbers[0]))
+                        }
+                        else{
+                            Toast.makeText(activity, "No Phone Number found", Toast.LENGTH_LONG).show()
+
+                        }
+
+                        cursor2.close()
+                    }
+                    cursor1.close()
+                }
+
+            }
+        }
+        else {
+            //cancelled picking contact
+            Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showPhoneNumberDialog(phoneNumbers: ArrayList<String>, listener: DialogInterface.OnClickListener) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        val checkedItem = -1
+        builder.setSingleChoiceItems(phoneNumbers.toTypedArray(), checkedItem, listener)
+            .setPositiveButton("OK"){dialog, which ->
+            d(TAG, "oK PRESSED")
+        }
+        builder.setTitle("Select a Phone Number")
+            .setNegativeButton("Cancel") { dialog, which ->
+                binding.phoneNumberToTopup.setText("")
+                d(TAG, "Dialogue cancelled")
+            }
+
+        builder.create().show()
+    }
+
+
+    fun normalizePhoneNumber(phoneNumber: String): String{
+        val npn = phoneNumber.replace("\\s".toRegex(), "")
+        val stringBuilder = StringBuilder(npn)
+
+        while(stringBuilder.isNotEmpty() && stringBuilder.length > 9 ){
+            stringBuilder.deleteCharAt(0)
+        }
+        return stringBuilder.toString()
+    }
 
 
 }
