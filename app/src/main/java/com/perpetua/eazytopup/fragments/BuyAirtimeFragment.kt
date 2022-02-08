@@ -12,8 +12,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.Settings
-import android.text.Editable
-import android.util.Log
 import android.util.Log.d
 import android.util.Log.i
 import androidx.fragment.app.Fragment
@@ -33,8 +31,6 @@ import com.perpetua.eazytopup.databinding.FragmentBuyAirtimeBinding
 import java.lang.StringBuilder
 
 import androidx.core.app.ActivityCompat
-import com.perpetua.eazytopup.models.Contact
-import contacts.core.Contacts
 import contacts.core.util.*
 
 
@@ -372,12 +368,15 @@ class BuyAirtimeFragment : Fragment() {
 
 
     fun normalizePhoneNumber(phoneNumber: String): String{
-        val npn = phoneNumber.replace("\\s".toRegex(), "")
-        val stringBuilder = StringBuilder(npn)
 
+        val re = Regex("[^0-9]")
+        val digitsOnlyNumber = phoneNumber.replace(re, "")
+        val stringBuilder = StringBuilder(digitsOnlyNumber)
+        d(TAG, "Number without white space: $digitsOnlyNumber")
         while(stringBuilder.isNotEmpty() && stringBuilder.length > 9 ){
             stringBuilder.deleteCharAt(0)
         }
+        d(TAG, "Number after normalization: ${stringBuilder.toString()}")
         return stringBuilder.toString()
     }
 
