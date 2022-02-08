@@ -19,7 +19,6 @@
             android:layout_marginTop="@dimen/margin_4dp"
             android:layout_marginEnd="@dimen/margin_4dp"
             style="@style/CardView"
-            android:background="@drawable/gradient_drawable"
             android:layout_weight="1"
             android:elevation="@dimen/margin_4dp"
             android:padding="@dimen/margin_32dp"
