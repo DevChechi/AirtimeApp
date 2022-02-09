@@ -12,7 +12,7 @@ class RetrofitInstance {
         private val retrofit by lazy {
             //logging responses with HttpLoggingInterceptor
             val logging = HttpLoggingInterceptor()
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+            logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
 
             //okhttp client using the interceptor
             val client = OkHttpClient.Builder()
