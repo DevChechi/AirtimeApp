@@ -151,6 +151,15 @@
 
     </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/paginationProgressBar"
+            style="?attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            />
 
 
 </FrameLayout>
