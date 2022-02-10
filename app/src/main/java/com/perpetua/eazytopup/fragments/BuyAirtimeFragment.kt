@@ -31,10 +31,16 @@ import com.perpetua.eazytopup.databinding.FragmentBuyAirtimeBinding
 import java.lang.StringBuilder
 
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
+import com.perpetua.eazytopup.models.AirtimeForSelf
+import com.perpetua.eazytopup.utils.Resource
+import com.perpetua.eazytopup.viewmodels.AirtimeViewModel
 import contacts.core.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class BuyAirtimeFragment : Fragment() {
+    val airtimeViewModel by viewModel<AirtimeViewModel>()
     private val CONTACT_PICK_CODE: Int = 2
     private val TAG: String? = "BuyAirtimeFragment"
     private val REQUEST_PERMISSIONS_REQUEST_CODE: Int = 1
@@ -66,6 +72,7 @@ class BuyAirtimeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        hideProgressBar()
         val buyFor = args.buyFor
         setupUI(view)
         binding.phoneNumberTopupField.setEndIconOnClickListener {
@@ -113,21 +120,30 @@ class BuyAirtimeFragment : Fragment() {
             binding.buyForOthers.setOnClickListener {
                 myPhoneNumber = binding.myPhoneNumber.text.toString().trim()
                 amount =binding.amount.text.toString().trim()
+
+                val validPhoneNumber = (binding.phoneNumberField.prefixText.toString().plus(myPhoneNumber))
                 if(!validateAmount(amount, binding.amountField) or
-                    !validatePhoneNumber(myPhoneNumber, binding.phoneNumberField) ){
+                    !validatePhoneNumber(validPhoneNumber, binding.phoneNumberField) ){
                     return@setOnClickListener
                 }
+
                 val stringBuilder = StringBuilder(amount)
                 while(stringBuilder.isNotEmpty() && stringBuilder[0] == '0'){
                     stringBuilder.deleteCharAt(0)
                 }
+
+                val airtimeNumber = normalizePhoneNumber(validPhoneNumber)
+                val airtimeAmount = stringBuilder.toString()
+
+                val airtimeForSelf = AirtimeForSelf(airtimeNumber, airtimeAmount)
 
                 showRationaleDialog(
                     "Confirm",
                     "Buy airtime for  0$myPhoneNumber \n Amount: ${stringBuilder.toString()} \t Trasaction cost: ${transactionCost.toString()}",
                     "EDIT",
                     "Ok"){ dialog, which ->
-                    Toast.makeText(requireContext(), "Successful, wait for Mpesa prompt", Toast.LENGTH_LONG).show()
+                    d(TAG, "Starting request")
+                    makePurchaseForSelf(airtimeForSelf)
                 }
 
             }
@@ -138,6 +154,43 @@ class BuyAirtimeFragment : Fragment() {
         }
 
 
+    }
+    fun makePurchaseForSelf(airtimeForSelf: AirtimeForSelf){
+        airtimeViewModel.buyAirtimeForSelf(airtimeForSelf)
+        airtimeViewModel.airtimeForSelfData.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Success -> {
+                    hideProgressBar()
+                    d(TAG, "successful request")
+                    Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_LONG).show()
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    d(TAG, "UNsuccessful request")
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+                is Resource.PhoneNumberError ->{
+                    hideProgressBar()
+                    d(TAG, "UNsuccessful request")
+                    binding.phoneNumberField.error = it.message
+                }
+                is Resource.AmountError ->{
+                    hideProgressBar()
+                    d(TAG, "UNsuccessful request")
+                    binding.amountField.error = it.message
+                }
+                is Resource.Loading ->{
+                    showProgressBar()
+                    d(TAG, "loading request")
+                }
+            }
+        })
+    }
+    fun hideProgressBar(){
+        binding.paginationProgressBar.visibility = View.INVISIBLE
+    }
+    fun showProgressBar(){
+        binding.paginationProgressBar.visibility = View.VISIBLE
     }
     fun View.hideSoftKeyboard(){
         val imm = context.getSystemService(
@@ -150,8 +203,8 @@ class BuyAirtimeFragment : Fragment() {
 
     }
 
-    fun validatePhoneNumber(phoneNumber: String, inputLayout: TextInputLayout): Boolean{
-        val validPhoneNumber = (inputLayout.prefixText.toString().plus(phoneNumber))
+    fun validatePhoneNumber(validPhoneNumber: String, inputLayout: TextInputLayout): Boolean{
+
         return if(validPhoneNumber.isEmpty()){
             inputLayout.error = "Phone number cannot be empty"
             false
