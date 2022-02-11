@@ -9,9 +9,9 @@ import retrofit2.http.POST
 
 interface AirtimeTopupApi {
 
-    @POST("api/resp/self")
-    fun buyAirtimeForSelf(@Body airtimeForSelf: AirtimeForSelf): Call<Response<Unit>>
+    @POST("api/app/self")
+    fun buyAirtimeForSelf(@Body airtimeForSelf: AirtimeForSelf): Call<Response<Unit>>?
 
-    @POST("api/resp/other")
+    @POST("api/app/other")
     fun buyAirtimeForOther(@Body airtimeForOther: AirtimeForOther): Call<Response<Unit>>
 }

@@ -27,8 +27,8 @@ class AirtimeViewModel(private val airtimeRepository: AirtimeRepository) : ViewM
         if(airtimeForSelf.pesa.isEmpty()){
             airtimeForSelfData.postValue(Resource.AmountError("Amount missing"))
         }
-        val response = airtimeRepository.buyAirtimeForSelf(airtimeForSelf).awaitResponse()
-        handleAirtimeResponse(response = response.body())
+        val response = airtimeRepository.buyAirtimeForSelf(airtimeForSelf)?.awaitResponse()
+        handleAirtimeResponse(response?.body())
        }
 
 
@@ -36,7 +36,7 @@ class AirtimeViewModel(private val airtimeRepository: AirtimeRepository) : ViewM
         if (response != null) {
             if(response.isSuccessful
             ){
-
+                response.body()
                 return Resource.Success("Successful, Wait for Mpesa Pin prompt")
             }else{
                 return  Resource.Error("Error, Request failed")

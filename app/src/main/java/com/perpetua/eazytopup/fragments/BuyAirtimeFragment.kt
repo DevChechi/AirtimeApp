@@ -132,7 +132,7 @@ class BuyAirtimeFragment : Fragment() {
                     stringBuilder.deleteCharAt(0)
                 }
 
-                val airtimeNumber = normalizePhoneNumber(validPhoneNumber)
+                val airtimeNumber = ("0" + normalizePhoneNumber(validPhoneNumber))
                 val airtimeAmount = stringBuilder.toString()
 
                 val airtimeForSelf = AirtimeForSelf(airtimeNumber, airtimeAmount)
@@ -144,6 +144,7 @@ class BuyAirtimeFragment : Fragment() {
                     "Ok"){ dialog, which ->
                     d(TAG, "Starting request")
                     makePurchaseForSelf(airtimeForSelf)
+
                 }
 
             }
