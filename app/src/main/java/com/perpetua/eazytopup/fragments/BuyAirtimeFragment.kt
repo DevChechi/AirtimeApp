@@ -140,7 +140,7 @@ class BuyAirtimeFragment : Fragment() {
 
                 showRationaleDialog(
                     "Confirm",
-                    "Buy airtime for  0$myPhoneNumber \n Amount: ${stringBuilder.toString()} \t Trasaction cost: ${transactionCost.toString()}",
+                    "Buy airtime for  $airtimeNumber \n Amount: $airtimeAmount ",
                     "EDIT",
                     "Ok"){ dialog, which ->
                     d(TAG, "Starting request")
@@ -164,21 +164,21 @@ class BuyAirtimeFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     d(TAG, "successful request: data ${it.data.toString()}")
-                    Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Successful: Follow Mpesa prompt to complete purchase", Toast.LENGTH_LONG).show()
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                    d(TAG, "UNsuccessful request")
+                    d(TAG, "Unsuccessful request")
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
                 is Resource.PhoneNumberError ->{
                     hideProgressBar()
-                    d(TAG, "UNsuccessful request")
+                    d(TAG, "Unsuccessful request")
                     binding.phoneNumberField.error = it.message
                 }
                 is Resource.AmountError ->{
                     hideProgressBar()
-                    d(TAG, "UNsuccessful request")
+                    d(TAG, "Unsuccessful request")
                     binding.amountField.error = it.message
                 }
                 is Resource.Loading ->{
