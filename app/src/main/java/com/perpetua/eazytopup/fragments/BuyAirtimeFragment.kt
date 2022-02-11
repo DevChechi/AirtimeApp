@@ -32,6 +32,7 @@ import java.lang.StringBuilder
 
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
+import com.perpetua.eazytopup.R
 import com.perpetua.eazytopup.models.AirtimeForSelf
 import com.perpetua.eazytopup.utils.Resource
 import com.perpetua.eazytopup.viewmodels.AirtimeViewModel
@@ -145,6 +146,8 @@ class BuyAirtimeFragment : Fragment() {
                     "Ok"){ dialog, which ->
                     d(TAG, "Starting request")
                     makePurchaseForSelf(airtimeForSelf)
+                    binding.myPhoneNumber.setText("")
+                    binding.amount.setText("")
 
                 }
 
@@ -165,6 +168,7 @@ class BuyAirtimeFragment : Fragment() {
                     hideProgressBar()
                     d(TAG, "successful request: data ${it.data.toString()}")
                     Toast.makeText(requireContext(), "Successful: Follow Mpesa prompt to complete purchase", Toast.LENGTH_LONG).show()
+                    parentFragment?.parentFragment?.findNavController()?.navigate(R.id.action_buyAirtimeFragment_to_homeHostFragment)
                 }
                 is Resource.Error -> {
                     hideProgressBar()
@@ -209,9 +213,6 @@ class BuyAirtimeFragment : Fragment() {
 
         return if(validPhoneNumber.isEmpty()){
             inputLayout.error = "Phone number cannot be empty"
-            false
-        }else if(validPhoneNumber.toCharArray()[4] == '0'){
-            inputLayout.error = "Invalid phone number, please check your number"
             false
         }
         else if(validPhoneNumber.matches(phoneNumberPattern.toRegex())){

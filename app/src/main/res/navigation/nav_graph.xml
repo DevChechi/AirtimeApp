@@ -32,5 +32,10 @@
             android:name="buyFor"
             app:argType="string"
             android:defaultValue="null" />
+        <action
+            android:id="@+id/action_buyAirtimeFragment_to_homeHostFragment"
+            app:destination="@id/homeHostFragment"
+            app:popUpTo="@id/homeHostFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
