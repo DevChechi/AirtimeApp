@@ -6,7 +6,7 @@ import com.perpetua.eazytopup.models.AirtimeForSelf
 import retrofit2.awaitResponse
 
 class AirtimeRepository {
-   fun buyAirtimeForSelf(airtimeForSelf: AirtimeForSelf) =
+   suspend fun buyAirtimeForSelf(airtimeForSelf: AirtimeForSelf) =
         RetrofitInstance.api.buyAirtimeForSelf(airtimeForSelf)
 
 

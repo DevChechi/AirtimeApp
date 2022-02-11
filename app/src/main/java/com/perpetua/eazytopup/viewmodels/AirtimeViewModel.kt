@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.perpetua.eazytopup.models.AirtimeForOther
 import com.perpetua.eazytopup.models.AirtimeForSelf
+import com.perpetua.eazytopup.models.AirtimePurchaseResponse
 import com.perpetua.eazytopup.repositories.AirtimeRepository
 import com.perpetua.eazytopup.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,7 @@ import retrofit2.awaitResponse
 
 class AirtimeViewModel(private val airtimeRepository: AirtimeRepository) : ViewModel() {
 
-    val airtimeForSelfData: MutableLiveData<Resource<Unit>> = MutableLiveData()
+    val airtimeForSelfData: MutableLiveData<Resource<AirtimePurchaseResponse>> = MutableLiveData()
     init{
         d("AirtimeViewModel", "View model started")
     }
@@ -27,25 +28,19 @@ class AirtimeViewModel(private val airtimeRepository: AirtimeRepository) : ViewM
         if(airtimeForSelf.pesa.isEmpty()){
             airtimeForSelfData.postValue(Resource.AmountError("Amount missing"))
         }
-        val response = airtimeRepository.buyAirtimeForSelf(airtimeForSelf)?.awaitResponse()
+        val response = airtimeRepository.buyAirtimeForSelf(airtimeForSelf)
         d("AirtimeViewModel", "retrofit response: $response")
-        d("AirtimeViewModel", "response body: ${response?.body()}")
-        if (response != null) {
-            handleAirtimeResponse(response)
-        }
+        d("AirtimeViewModel", "response body: ${response}")
+        airtimeForSelfData.postValue(handleAirtimeResponse(response))
        }
 
 
-    private fun handleAirtimeResponse(response: Response<Unit>) : Resource<String>{
-
-        if(response.isSuccessful
-        ){
-            response.body()
-            return Resource.Success("Successful, Wait for Mpesa Pin prompt")
-        }else{
-            return  Resource.Error("Error, Request failed")
+    private fun handleAirtimeResponse(response: Response<AirtimePurchaseResponse>) : Resource<AirtimePurchaseResponse> {
+        if(response.isSuccessful){
+            response.body()?.let{
+                return Resource.Success(it)
+            }
         }
-
-
+        return Resource.Error("Error, failed to make request")
     }
 }

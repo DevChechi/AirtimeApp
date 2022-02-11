@@ -37,6 +37,7 @@ import com.perpetua.eazytopup.utils.Resource
 import com.perpetua.eazytopup.viewmodels.AirtimeViewModel
 import contacts.core.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.system.exitProcess
 
 
 class BuyAirtimeFragment : Fragment() {
@@ -132,7 +133,7 @@ class BuyAirtimeFragment : Fragment() {
                     stringBuilder.deleteCharAt(0)
                 }
 
-                val airtimeNumber = ("0" + normalizePhoneNumber(validPhoneNumber))
+                val airtimeNumber = (normalizePhoneNumber(validPhoneNumber))
                 val airtimeAmount = stringBuilder.toString()
 
                 val airtimeForSelf = AirtimeForSelf(airtimeNumber, airtimeAmount)
@@ -162,7 +163,7 @@ class BuyAirtimeFragment : Fragment() {
             when(it){
                 is Resource.Success -> {
                     hideProgressBar()
-                    d(TAG, "successful request")
+                    d(TAG, "successful request: data ${it.data.toString()}")
                     Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_LONG).show()
                 }
                 is Resource.Error -> {
@@ -209,10 +210,15 @@ class BuyAirtimeFragment : Fragment() {
         return if(validPhoneNumber.isEmpty()){
             inputLayout.error = "Phone number cannot be empty"
             false
-        }else if(validPhoneNumber.matches(phoneNumberPattern.toRegex())){
+        }else if(validPhoneNumber.toCharArray()[4] == '0'){
+            inputLayout.error = "Invalid phone number, please check your number"
+            false
+        }
+        else if(validPhoneNumber.matches(phoneNumberPattern.toRegex())){
             i("Buy airtime fragment", "valid phone number $validPhoneNumber")
             true
-        }else{
+        }
+        else{
             inputLayout.error = "Invalid phone number"
             false
         }
@@ -430,8 +436,10 @@ class BuyAirtimeFragment : Fragment() {
         while(stringBuilder.isNotEmpty() && stringBuilder.length > 9 ){
             stringBuilder.deleteCharAt(0)
         }
-        d(TAG, "Number after normalization: ${stringBuilder.toString()}")
-        return stringBuilder.toString()
+
+        val validPhoneNumber = "0$stringBuilder"
+        d(TAG, "Number after normalization: $validPhoneNumber")
+        return validPhoneNumber
     }
 
 
