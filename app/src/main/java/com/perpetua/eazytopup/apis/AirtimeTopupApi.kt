@@ -14,5 +14,5 @@ interface AirtimeTopupApi {
     suspend fun buyAirtimeForSelf(@Body airtimeForSelf: AirtimeForSelf): Response<AirtimePurchaseResponse>
 
     @POST("api/app/other")
-    fun buyAirtimeForOther(@Body airtimeForOther: AirtimeForOther): Call<Response<Unit>>
+    suspend fun buyAirtimeForOther(@Body airtimeForOther: AirtimeForOther): Response<AirtimePurchaseResponse>
 }

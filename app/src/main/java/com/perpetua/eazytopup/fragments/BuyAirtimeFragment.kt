@@ -33,6 +33,7 @@ import java.lang.StringBuilder
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.perpetua.eazytopup.R
+import com.perpetua.eazytopup.models.AirtimeForOther
 import com.perpetua.eazytopup.models.AirtimeForSelf
 import com.perpetua.eazytopup.utils.Resource
 import com.perpetua.eazytopup.viewmodels.AirtimeViewModel
@@ -95,22 +96,34 @@ class BuyAirtimeFragment : Fragment() {
                 myPhoneNumber = binding.myPhoneNumber.text.toString().trim()
                 phoneNumberToTopup = binding.phoneNumberToTopup.text.toString().trim()
                 amount =binding.amount.text.toString().trim()
-                val transactionCost = 32
+
+                val validMyPhoneNumber = binding.phoneNumberField.prefixText.toString().plus(myPhoneNumber)
+                val validPhoneToTopup = binding.phoneNumberTopupField.prefixText.toString().plus(phoneNumberToTopup)
+
                 if(!validateAmount(amount, binding.amountField) or
-                    !validatePhoneNumber(myPhoneNumber, binding.phoneNumberField) or
-                    !validatePhoneNumber(phoneNumberToTopup, binding.phoneNumberTopupField) ){
+                    !validatePhoneNumber(validMyPhoneNumber, binding.phoneNumberField) or
+                    !validatePhoneNumber(validPhoneToTopup, binding.phoneNumberTopupField) ){
                     return@setOnClickListener
                 }
+
                 val stringBuilder = StringBuilder(amount)
                 while(stringBuilder.isNotEmpty() && stringBuilder[0] == '0'){
                     stringBuilder.deleteCharAt(0)
                 }
+
+                val airtimeNumber = normalizePhoneNumber(validMyPhoneNumber)
+                val airtimeNumberToTopup = normalizePhoneNumber(validPhoneToTopup)
+                val airtimeAmount = stringBuilder.toString()
+                val airtimeForOther = AirtimeForOther(airtimeNumber, airtimeNumberToTopup, airtimeAmount)
                 showRationaleDialog(
                     "Confirm",
-                    "Buy airtime for $myPhoneNumber \n Amount: $stringBuilder \t Transaction cost: $transactionCost",
+                    "Buy airtime for $myPhoneNumber \n Amount: $airtimeAmount ",
                     "EDIT",
                     "Ok"){ dialog, which ->
-                    Toast.makeText(requireContext(), "Successful, wait for Mpesa prompt", Toast.LENGTH_LONG).show()
+                    makePurchaseForOther(airtimeForOther)
+                    binding.myPhoneNumber.setText("")
+                    binding.phoneNumberToTopup.setText("")
+                    binding.amount.setText("")
                 }
 
             }
@@ -118,7 +131,6 @@ class BuyAirtimeFragment : Fragment() {
         if(buyFor.equals("self")){
             binding.buyForOthersLayout.visibility = View.GONE
             binding.buyAirtimeText.text = ""
-            val transactionCost = 32
             binding.buyForOthers.setOnClickListener {
                 myPhoneNumber = binding.myPhoneNumber.text.toString().trim()
                 amount =binding.amount.text.toString().trim()
@@ -162,6 +174,38 @@ class BuyAirtimeFragment : Fragment() {
     }
     fun makePurchaseForSelf(airtimeForSelf: AirtimeForSelf){
         airtimeViewModel.buyAirtimeForSelf(airtimeForSelf)
+        airtimeViewModel.airtimeForSelfData.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Success -> {
+                    hideProgressBar()
+                    d(TAG, "successful request: data ${it.data.toString()}")
+                    Toast.makeText(requireContext(), "Successful: Follow Mpesa prompt to complete purchase", Toast.LENGTH_LONG).show()
+                    parentFragment?.parentFragment?.findNavController()?.navigate(R.id.action_buyAirtimeFragment_to_homeHostFragment)
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    d(TAG, "Unsuccessful request")
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+                is Resource.PhoneNumberError ->{
+                    hideProgressBar()
+                    d(TAG, "Unsuccessful request")
+                    binding.phoneNumberField.error = it.message
+                }
+                is Resource.AmountError ->{
+                    hideProgressBar()
+                    d(TAG, "Unsuccessful request")
+                    binding.amountField.error = it.message
+                }
+                is Resource.Loading ->{
+                    showProgressBar()
+                    d(TAG, "loading request")
+                }
+            }
+        })
+    }
+    fun makePurchaseForOther(airtimeForOther: AirtimeForOther){
+        airtimeViewModel.buyAirtimeForOther(airtimeForOther)
         airtimeViewModel.airtimeForSelfData.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Success -> {
@@ -388,10 +432,10 @@ class BuyAirtimeFragment : Fragment() {
                         }
                         if(phoneNumbers.size > 1){
                             showPhoneNumberDialog(phoneNumbers = phoneNumbers){ dialog, which ->
-                                binding.phoneNumberToTopup.setText(normalizePhoneNumber(phoneNumbers[which]))
+                                binding.phoneNumberToTopup.setText(getDigitsOnlyContact(phoneNumbers[which]))
                             }
                         }else if(phoneNumbers.size == 1){
-                            binding.phoneNumberToTopup.setText(normalizePhoneNumber(phoneNumbers[0]))
+                            binding.phoneNumberToTopup.setText(getDigitsOnlyContact(phoneNumbers[0]))
                         }
                         else{
                             Toast.makeText(activity, "No Phone Number found", Toast.LENGTH_LONG).show()
@@ -429,19 +473,20 @@ class BuyAirtimeFragment : Fragment() {
 
 
     fun normalizePhoneNumber(phoneNumber: String): String{
+        val validPhoneNumber = "0${getDigitsOnlyContact(phoneNumber)}"
+        d(TAG, "Number after normalization: $validPhoneNumber")
+        return validPhoneNumber
+    }
 
+    fun getDigitsOnlyContact(rawNumber: String): String{
         val re = Regex("[^0-9]")
-        val digitsOnlyNumber = phoneNumber.replace(re, "")
+        val digitsOnlyNumber = rawNumber.replace(re, "")
         val stringBuilder = StringBuilder(digitsOnlyNumber)
         d(TAG, "Number without white space: $digitsOnlyNumber")
         while(stringBuilder.isNotEmpty() && stringBuilder.length > 9 ){
             stringBuilder.deleteCharAt(0)
         }
-
-        val validPhoneNumber = "0$stringBuilder"
-        d(TAG, "Number after normalization: $validPhoneNumber")
-        return validPhoneNumber
+        return stringBuilder.toString()
     }
-
 
 }

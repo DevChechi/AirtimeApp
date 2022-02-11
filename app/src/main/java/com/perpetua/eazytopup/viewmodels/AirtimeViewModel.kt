@@ -34,6 +34,23 @@ class AirtimeViewModel(private val airtimeRepository: AirtimeRepository) : ViewM
         airtimeForSelfData.postValue(handleAirtimeResponse(response))
        }
 
+    fun buyAirtimeForOther(airtimeForOther: AirtimeForOther) = viewModelScope.launch(Dispatchers.IO) {
+        airtimeForSelfData.postValue(Resource.Loading())
+        if(airtimeForOther.number.isEmpty()){
+            airtimeForSelfData.postValue(Resource.PhoneNumberError("Phone Number missing"))
+        }
+        if(airtimeForOther.msisdn.isEmpty()){
+            airtimeForSelfData.postValue(Resource.PhoneNumberError("Phone Number missing"))
+        }
+        if(airtimeForOther.pesa.isEmpty()){
+            airtimeForSelfData.postValue(Resource.AmountError("Amount missing"))
+        }
+        val response = airtimeRepository.buyAirtimeForOther(airtimeForOther)
+        d("AirtimeViewModel", "retrofit response: $response")
+        d("AirtimeViewModel", "response body: ${response}")
+        airtimeForSelfData.postValue(handleAirtimeResponse(response))
+    }
+
 
     private fun handleAirtimeResponse(response: Response<AirtimePurchaseResponse>) : Resource<AirtimePurchaseResponse> {
         if(response.isSuccessful){

@@ -11,6 +11,6 @@ class AirtimeRepository {
 
 
     suspend fun buyAirtimeForOther(airtimeForOther: AirtimeForOther)=
-        RetrofitInstance.api.buyAirtimeForOther(airtimeForOther).awaitResponse()
+        RetrofitInstance.api.buyAirtimeForOther(airtimeForOther)
 
 }
