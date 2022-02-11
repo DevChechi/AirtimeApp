@@ -3,6 +3,7 @@
     package="com.perpetua.eazytopup">
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".applications.App"
@@ -12,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_eazytopup_round"
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
-        >
+       >
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">
