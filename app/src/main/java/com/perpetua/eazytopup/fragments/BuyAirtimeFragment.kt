@@ -39,7 +39,6 @@ import com.perpetua.eazytopup.utils.Resource
 import com.perpetua.eazytopup.viewmodels.AirtimeViewModel
 import contacts.core.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.system.exitProcess
 
 
 class BuyAirtimeFragment : Fragment() {
@@ -90,15 +89,15 @@ class BuyAirtimeFragment : Fragment() {
 
             }
         }
-
+        val countryCode = "+254"
         if(buyFor.equals("others")){
             binding.buyForOthers.setOnClickListener {
                 myPhoneNumber = binding.myPhoneNumber.text.toString().trim()
                 phoneNumberToTopup = binding.phoneNumberToTopup.text.toString().trim()
                 amount =binding.amount.text.toString().trim()
 
-                val validMyPhoneNumber = binding.phoneNumberField.prefixText.toString().plus(myPhoneNumber)
-                val validPhoneToTopup = binding.phoneNumberTopupField.prefixText.toString().plus(phoneNumberToTopup)
+                val validMyPhoneNumber = countryCode.plus(myPhoneNumber)
+                val validPhoneToTopup = countryCode.plus(phoneNumberToTopup)
 
                 if(!validateAmount(amount, binding.amountField) or
                     !validatePhoneNumber(validMyPhoneNumber, binding.phoneNumberField) or
@@ -130,7 +129,6 @@ class BuyAirtimeFragment : Fragment() {
         }
         if(buyFor.equals("self")){
             binding.buyForOthersLayout.visibility = View.GONE
-            binding.buyAirtimeText.text = ""
             binding.buyForOthers.setOnClickListener {
                 myPhoneNumber = binding.myPhoneNumber.text.toString().trim()
                 amount =binding.amount.text.toString().trim()
@@ -279,7 +277,11 @@ class BuyAirtimeFragment : Fragment() {
         return if( validAmount.isEmpty()){
             inputLayout.error = "Amount cannot be empty"
             false
-        } else {
+        } else if( validAmount.toInt() < 10){
+            inputLayout.error = "Amount cannot be less than Ksh 10"
+            false
+        }
+        else {
             true
         }
     }
@@ -488,5 +490,4 @@ class BuyAirtimeFragment : Fragment() {
         }
         return stringBuilder.toString()
     }
-
 }
