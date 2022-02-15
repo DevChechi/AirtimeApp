@@ -96,8 +96,8 @@ class BuyAirtimeFragment : Fragment() {
                 phoneNumberToTopup = binding.phoneNumberToTopup.text.toString().trim()
                 amount =binding.amount.text.toString().trim()
 
-                val validMyPhoneNumber = countryCode.plus(myPhoneNumber)
-                val validPhoneToTopup = countryCode.plus(phoneNumberToTopup)
+                val validMyPhoneNumber = countryCode.plus(getDigitsOnlyContact(myPhoneNumber))
+                val validPhoneToTopup = countryCode.plus(getDigitsOnlyContact(phoneNumberToTopup))
 
                 if(!validateAmount(amount, binding.amountField) or
                     !validatePhoneNumber(validMyPhoneNumber, binding.phoneNumberField) or
@@ -133,7 +133,7 @@ class BuyAirtimeFragment : Fragment() {
                 myPhoneNumber = binding.myPhoneNumber.text.toString().trim()
                 amount =binding.amount.text.toString().trim()
 
-                val validPhoneNumber = (binding.phoneNumberField.prefixText.toString().plus(myPhoneNumber))
+                val validPhoneNumber = (countryCode.plus(getDigitsOnlyContact(myPhoneNumber)))
                 if(!validateAmount(amount, binding.amountField) or
                     !validatePhoneNumber(validPhoneNumber, binding.phoneNumberField) ){
                     return@setOnClickListener
