@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,6 +22,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
@@ -89,6 +91,7 @@ class BuyAirtimeFragment : Fragment() {
 
             }
         }
+
         val countryCode = "+254"
         if(buyFor.equals("others")){
             binding.buyForOthers.setOnClickListener {
@@ -138,6 +141,7 @@ class BuyAirtimeFragment : Fragment() {
                     !validatePhoneNumber(validPhoneNumber, binding.phoneNumberField) ){
                     return@setOnClickListener
                 }
+
 
                 val stringBuilder = StringBuilder(amount)
                 while(stringBuilder.isNotEmpty() && stringBuilder[0] == '0'){
@@ -255,6 +259,7 @@ class BuyAirtimeFragment : Fragment() {
 
         return if(validPhoneNumber.isEmpty()){
             inputLayout.error = "Phone number cannot be empty"
+            inputLayout.errorIconDrawable = null
             false
         }
         else if(validPhoneNumber.matches(phoneNumberPattern.toRegex())){
@@ -263,6 +268,7 @@ class BuyAirtimeFragment : Fragment() {
         }
         else{
             inputLayout.error = "Invalid phone number"
+            inputLayout.errorIconDrawable = null
             false
         }
     }
