@@ -119,7 +119,7 @@ class BuyAirtimeFragment : Fragment() {
                 val airtimeForOther = AirtimeForOther(airtimeNumber, airtimeNumberToTopup, airtimeAmount)
                 showRationaleDialog(
                     "Confirm",
-                    "Buy airtime for $myPhoneNumber \n Amount: $airtimeAmount ",
+                    "Buy airtime for $airtimeNumberToTopup \n Amount: $airtimeAmount ",
                     "EDIT",
                     "Ok"){ dialog, which ->
                     makePurchaseForOther(airtimeForOther)
