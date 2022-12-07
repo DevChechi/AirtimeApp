@@ -1,16 +1,15 @@
 package com.perpetua.eazytopup.apis
 
+import androidx.recyclerview.widget.DiffUtil
+import com.perpetua.eazytopup.models.Contact
 import com.perpetua.eazytopup.utils.Constants.Companion.BASE_URL
+import com.perpetua.eazytopup.utils.Constants.Companion.DOMAIN_NAME
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import com.google.gson.GsonBuilder
-
-import com.google.gson.Gson
-
-
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.HttpsURLConnection
 
 
 class RetrofitInstance {
@@ -19,9 +18,9 @@ class RetrofitInstance {
             //logging responses with HttpLoggingInterceptor
             val logging = HttpLoggingInterceptor()
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-
             //okhttp client using the interceptor
             val client = OkHttpClient.Builder()
+                .hostnameVerifier { hostname, _ -> hostname == DOMAIN_NAME }
                 .addInterceptor(logging)
                 .build()
 
